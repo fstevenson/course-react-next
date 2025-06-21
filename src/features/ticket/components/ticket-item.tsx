@@ -1,5 +1,3 @@
-'use client';
-
 import clsx from "clsx"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ticketPath } from "@/paths"
@@ -25,14 +23,14 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
         </Button>
     );
 
-    const handleDeleteTicket = async () => {
-        await deleteTicket(ticket.id);
-    }
 
     const deleteButton = (
-        <Button size="icon" variant="outline" onClick={handleDeleteTicket}>
-            <LucideTrash className="h-4 w-4" />
-        </Button>
+        <form action={deleteTicket.bind(null, ticket.id)}>
+            <Button size="icon" variant="outline">
+                <LucideTrash className="h-4 w-4" />
+            </Button>
+        </form>
+
     )
 
     return (
