@@ -1,12 +1,12 @@
 import clsx from "clsx"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ticketPath } from "@/paths"
-import Link from "next/link"
-import { TICKET_ICONS } from "../constants"
 import { LucideSquareArrowOutUpRight, LucideTrash, Omega } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Ticket } from "@/generated/prisma"
+import { ticketPath } from "@/paths"
 import { deleteTicket } from "../actions/delete-ticket";
+import { TICKET_ICONS } from "../constants"
 
 
 type TicketItemProps = {

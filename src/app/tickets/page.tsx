@@ -1,10 +1,10 @@
 
-import { Heading } from "@/components/heading";
 import { Suspense } from "react";
-import { TicketList } from "@/features/ticket/components/ticket-list";
-import { Spinner } from "@/features/ticket/components/spinner";
 import { ErrorBoundary } from "react-error-boundary";
+import { Heading } from "@/components/heading";
 import { Placeholder } from "@/components/placeholder";
+import { Spinner } from "@/features/ticket/components/spinner";
+import { TicketList } from "@/features/ticket/components/ticket-list";
 
 const TicketsPage = () => {
     return (

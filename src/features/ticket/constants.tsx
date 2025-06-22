@@ -1,4 +1,4 @@
-import { LucideCircleCheck, LucidePencil, LucideFileText } from "lucide-react";
+import { LucideCircleCheck, LucideFileText,LucidePencil } from "lucide-react";
 
 const TICKET_ICONS = {
     OPEN: <LucideFileText />,
