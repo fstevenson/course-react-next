@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
+import { revalidatePath } from "next/cache";
 
 export const deleteTicket = async (id: string) => {
     await prisma.ticket.delete({
@@ -10,6 +11,8 @@ export const deleteTicket = async (id: string) => {
             id,
         },
     });
+
+    revalidatePath(ticketsPath());
 
     redirect(ticketsPath());
 }

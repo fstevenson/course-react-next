@@ -6,6 +6,9 @@ import { Placeholder } from "@/components/placeholder";
 import { Spinner } from "@/features/ticket/components/spinner";
 import { TicketList } from "@/features/ticket/components/ticket-list";
 
+// export const dynamic = "force-dynamic"; // Force dynamic rendering to avoid stale data issues
+// export const revalidate = 30; // revalidate to fetch fresh data
+
 const TicketsPage = () => {
     return (
         <div className="flex-1 flex flex-col gap-y-8">
