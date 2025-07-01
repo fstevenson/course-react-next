@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Ticket } from "@/generated/prisma/client";
 import { upsertTicket } from "@/features/ticket/actions/upsert-ticket";
 import { SubmitButton } from "@/components/form/submit-button";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
+import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
 
 
 type TicketUpsertFormProps = {
@@ -18,6 +19,16 @@ type TicketUpsertFormProps = {
 
 const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
     const [actionState, action] = useActionState(upsertTicket.bind(null, ticket?.id), EMPTY_ACTION_STATE);
+
+    useActionFeedback(
+        actionState, {
+        onSuccess: ({ actionState }) => {
+            console.log(actionState.message);
+        },
+        onError: ({ actionState }) => {
+            console.log(actionState.message);
+        }
+    });
 
     return (
         <form
