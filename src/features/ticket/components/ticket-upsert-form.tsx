@@ -12,6 +12,7 @@ import { useActionState, useEffect } from "react";
 import { FieldError } from "@/components/form/field-error";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
+import { Form } from "@/components/form/form";
 
 
 type TicketUpsertFormProps = {
@@ -21,20 +22,12 @@ type TicketUpsertFormProps = {
 const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
     const [actionState, action] = useActionState(upsertTicket.bind(null, ticket?.id), EMPTY_ACTION_STATE);
 
-    useActionFeedback(
-        actionState, {
-        onSuccess: ({ actionState }) => {
-            actionState.message && toast.success(actionState.message);
-        },
-        onError: ({ actionState }) => {
-            actionState.message && toast.error(actionState.message);
-        }
-    });
+
 
     return (
-        <form
+        <Form
             action={action}
-            className="flex flex-col gap-y-2"
+            actionState={actionState}
         >
             <Label htmlFor="title">Title</Label>
             <Input type="text" id="title" name="title" defaultValue={
@@ -51,7 +44,7 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
                 name="content" />
 
             <SubmitButton label={ticket ? "Edit" : "Create"} />
-        </form>
+        </Form>
     );
 }
 
