@@ -6,17 +6,23 @@ const tickets = [
     {
         title: "Ticket 1",
         content: "This is the first ticket from the database",
-        status: "DONE" as const
+        status: "DONE" as const,
+        bounty: 499, // 4.99
+        deadline: new Date().toISOString().split('T')[0] // Current date as default value
     },
     {
         title: "Ticket 2",
         content: "This is the second ticket from the database",
-        status: "OPEN" as const
+        status: "OPEN" as const,
+        bounty: 399,
+        deadline: new Date().toISOString().split('T')[0]
     },
     {
         title: "Ticket 3",
         content: "This is the third ticket from the database",
-        status: "IN_PROGRESS" as const
+        status: "IN_PROGRESS" as const,
+        bounty: 299,
+        deadline: new Date().toISOString().split('T')[0]
     }
 ];
 

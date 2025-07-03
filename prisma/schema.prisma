@@ -21,7 +21,9 @@ model Ticket {
   content   String       @db.VarChar(1024)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
-  status    TicketStatus @default(OPEN) // open, in_progress, closed
+  status    TicketStatus @default(OPEN) // open, in_progress, done
+  deadline  String // provided default values to apply changes @default("2025-12-31")
+  bounty    Int // provided default values to apply changes @default(0)
 }
 
 enum TicketStatus {

@@ -13,6 +13,8 @@ import { FieldError } from "@/components/form/field-error";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
 import { Form } from "@/components/form/form";
+import { fromCent } from "@/utils/currency";
+import { DatePicker } from "@/components/date-picker";
 
 
 type TicketUpsertFormProps = {
@@ -42,6 +44,34 @@ const TicketUpsertForm = ({ ticket }: TicketUpsertFormProps) => {
             <FieldError
                 actionState={actionState}
                 name="content" />
+            <div className="flex gap-x-2 mb-1">
+                <div className="w-1/2">
+                    <Label htmlFor="deadline">Deadline</Label>
+
+                    <DatePicker
+                        key={actionState.timestamp}
+                        id="deadline"
+                        name="deadline"
+                        defaultValue={
+                            (actionState.payload?.get('deadline') as string) ?? ticket?.deadline
+                        }
+                    />
+                    <FieldError
+                        actionState={actionState}
+                        name="deadline" />
+                </div>
+                <div className="w-1/2">
+                    <Label htmlFor="bounty">Bounty ($)</Label>
+                    <Input type="number" step="0.01" id="bounty" name="bounty" defaultValue={
+                        (actionState.payload?.get('bounty') as string) ?? (ticket?.bounty ? fromCent(ticket?.bounty) : "")} />
+                    <FieldError
+                        actionState={actionState}
+                        name="bounty" />
+                </div>
+
+
+            </div>
+
 
             <SubmitButton label={ticket ? "Edit" : "Create"} />
         </Form>
