@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { LucidePencil, LucideSquareArrowOutUpRight, LucideTrash, Omega } from "lucide-react"
+import { LucideMoreVertical, LucidePencil, LucideSquareArrowOutUpRight, LucideTrash, Omega } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,6 +8,7 @@ import { ticketEditPath, ticketPath } from "@/paths"
 import { deleteTicket } from "../actions/delete-ticket";
 import { TICKET_ICONS } from "../constants"
 import { toCurrencyFromCents } from "@/utils/currency"
+import { TicketMoreMenu } from "./ticket-more-menu"
 
 
 type TicketItemProps = {
@@ -41,6 +42,12 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
 
     )
 
+    const moreMenu = <TicketMoreMenu ticket={ticket} trigger={
+        <Button size="icon" variant="outline">
+            <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+    } />
+
     return (
         <div className={clsx("w-full flex gap-x-1", {
             "max-w-[580px]": isDetail,
@@ -71,6 +78,7 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
                     <>
                         {editButton}
                         {deleteButton}
+                        {moreMenu}
                     </> :
                     <>
                         {detailButton}
