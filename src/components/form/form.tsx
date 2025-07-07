@@ -1,5 +1,5 @@
-import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
 import { toast } from "sonner";
+import { useActionFeedback } from "@/components/form/hooks/use-action-feedback";
 import { ActionState } from "@/components/form/utils/to-action-state";
 
 type FormProps = {
@@ -17,11 +17,15 @@ const Form = ({ action, actionState, children, onSuccess, onError }: FormProps) 
     useActionFeedback(
         actionState, {
         onSuccess: ({ actionState }) => {
-            actionState.message && toast.success(actionState.message);
+            if (actionState.message) {
+                toast.success(actionState.message);
+            }
             onSuccess?.(actionState);
         },
         onError: ({ actionState }) => {
-            actionState.message && toast.error(actionState.message);
+            if (actionState.message) {
+                toast.error(actionState.message);
+            }
             onError?.(actionState);
         }
     });

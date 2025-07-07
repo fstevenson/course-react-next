@@ -19,8 +19,12 @@ const useActionFeedback = (actionState: ActionState, options: UseActionFeedbackO
     useEffect(() => {
         if (!isUpdate) return;
 
-        actionState.status === "SUCCESS" && options.onSuccess?.({ actionState });
-        actionState.status === "ERROR" && options.onError?.({ actionState });
+        if (actionState.status === "SUCCESS") {
+            options.onSuccess?.({ actionState });
+        }
+        else if (actionState.status === "ERROR") {
+            options.onError?.({ actionState });
+        }
 
         prevTimestamp.current = actionState.timestamp;
     }, [isUpdate, actionState, options]);

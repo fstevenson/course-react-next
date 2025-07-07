@@ -1,18 +1,41 @@
-import { FlatCompat } from '@eslint/eslintrc'
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
-  baseDirectory: import.meta.dirname,
-})
+  baseDirectory: __dirname,
+});
 
 const eslintConfig = [
-  ...compat.config({
-    extends: ['next'],
-    rules: {
-      'react/no-unescaped-entities': 'off',
-      '@next/next/no-page-custom-font': 'off',
+  {
+    ignores: [
+      "node_modules",
+      ".next",
+      "dist",
+      "out",
+      "src/generated"
+    ],
+  },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: ["src/**/*.{js,jsx,ts,tsx}"], // Only apply to your source files
+    plugins: {
+      "simple-import-sort": simpleImportSort,
     },
-  }),
-]
+    rules: {
+      "simple-import-sort/imports": [
+        "error",
+        {
+          groups: [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]],
+        },
+      ],
+      "simple-import-sort/exports": "error",
+    },
+  },
+];
 
-export default eslintConfig
+export default eslintConfig;
