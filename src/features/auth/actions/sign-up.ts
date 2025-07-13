@@ -4,9 +4,9 @@ import { hash } from "@node-rs/argon2";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { ActionState, fromErrorToActionState } from "@/components/form/utils/to-action-state";
+import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/to-action-state";
 import { lucia } from "@/lib/lucia";
-import { prisma } from "@/lib/prisma";
+import { prisma, prismaClientKnownRequestError } from "@/lib/prisma";
 import { ticketsPath } from "@/paths";
 
 const signUpSchema = z.object({
@@ -63,6 +63,13 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         )
 
     } catch (error) {
+        if (
+            error instanceof prismaClientKnownRequestError &&
+            error.code === 'P2002'
+        ) {
+            return toActionState("ERROR", "Either email or username is already in use", formData);
+        }
+
         return fromErrorToActionState(error, formData);
     }
 
