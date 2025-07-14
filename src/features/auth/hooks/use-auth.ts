@@ -1,30 +1,12 @@
-import { User as AuthUser } from "lucia"
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { getAuth } from "../actions/get-auth";
-
+import { useSession } from "next-auth/react";
 
 const useAuth = () => {
-    // const { user } = await getAuth();
-    const [user, setUser] = useState<AuthUser | null>(null);
-    const [isFetched, setFetched] = useState<boolean | null>(null);
+    const { data: session, status } = useSession();
 
-    // needed because the component is part of the layout and 
-    // the layout doesn't re-render
-    const pathname = usePathname();
+    return {
+        user: session?.user ?? null,
+        isFetched: status !== "loading",
+    };
+};
 
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { user } = await getAuth();
-            setUser(user);
-            setFetched(true);
-        }
-
-        fetchUser();
-    }, [pathname])
-
-    return { user, isFetched };
-}
-
-export { useAuth }
+export { useAuth };

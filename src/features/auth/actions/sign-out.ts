@@ -1,27 +1,13 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { lucia } from "@/lib/lucia";
+import { signOut } from "@/lib/auth";
 import { signInPath } from "@/paths";
-import { getAuth } from "./get-auth";
 
-export const signOut = async () => {
-    const { session } = await getAuth();
+export const signOutAction = async () => {
 
-    if (!session) {
-        redirect(signInPath());
-    }
+    await signOut();
 
-    await lucia.invalidateSession(session.id);
-
-    const sessionCookie = lucia.createBlankSessionCookie();
-
-    (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-    )
-
-    redirect(signInPath());
+    // Redirect to the Auth.js sign-out endpoint
+    redirect("/api/auth/signout?callbackUrl=" + encodeURIComponent(signInPath()));
 }
