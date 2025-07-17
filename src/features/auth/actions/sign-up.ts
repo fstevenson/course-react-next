@@ -45,7 +45,6 @@
 
 //         await prisma.user.create({
 //             data: {
-//                 username,
 //                 email,
 //                 passwordHash,
 //             }

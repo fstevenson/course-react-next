@@ -1,17 +1,21 @@
 
+"use client";
 
-import { LucideKanban, LucideLogOut } from "lucide-react";
+import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 import { SignInForm } from "@/features/auth/components/sign-in-form";
-import { signIn, signOut } from "@/lib/auth";
-import { homePath, signInPath, signUpPath, ticketsPath } from "@/paths";
-import { SubmitButton } from "./form/submit-button";
+import { SignOutForm } from "@/features/auth/components/sign-out-form";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { homePath, ticketsPath } from "@/paths";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { buttonVariants } from "./ui/button";
 
 const Header = () => {
+    const { user, isFetched } = useAuth();
 
-    const navItems = (
+    if (!isFetched) return null;
+
+    const navItems = user ? (
         <>
             <Link
                 href={ticketsPath()}
@@ -19,10 +23,16 @@ const Header = () => {
             >
                 Tickets
             </Link>
+            <SignOutForm />
 
+        </>
+    ) : (
+        <>
             <SignInForm />
         </>
     );
+
+
 
     return (
         <nav
@@ -44,8 +54,9 @@ const Header = () => {
                 </Link>
             </div>
             <div className="flex align-items gap-x-2">
+
+                <ThemeSwitcher />
                 {navItems}
-                {/* <ThemeSwitcher /> */}
             </div>
         </nav>
     );
