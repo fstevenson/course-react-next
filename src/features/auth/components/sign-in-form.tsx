@@ -1,13 +1,46 @@
-'use client';
+"use client";
 
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useActionState } from "react";
+import { useEffect } from "react";
+import { FieldError } from "@/components/form/field-error";
+import { Form } from "@/components/form/form";
+import { SubmitButton } from "@/components/form/submit-button";
+import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
+import { Input } from "@/components/ui/input";
 import { signIn } from "../actions/sign-in";
 
+
 const SignInForm = () => {
+    const [actionState, action] = useActionState(signIn, EMPTY_ACTION_STATE);
+    const router = useRouter();
+    const { status } = useSession();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.replace("/"); // This will update the URL and trigger session re-fetch
+        }
+    }, [status, router]);
+
     return (
-        <form action={signIn}>
-            <button type="submit">Sign in</button>
-        </form>
+        <Form action={action} actionState={actionState}>
+            <Input
+                name="email"
+                placeholder="Email"
+                defaultValue={actionState.payload?.get('email') as string} />
+            <FieldError actionState={actionState} name="email" />
+
+            <Input
+                type="password"
+                name="password"
+                placeholder="Password"
+                defaultValue={actionState.payload?.get('password') as string} />
+            <FieldError actionState={actionState} name="password" />
+
+            <SubmitButton label="Sign In" />
+        </Form>
     );
-}
+};
 
 export { SignInForm };

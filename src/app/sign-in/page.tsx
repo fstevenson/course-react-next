@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { CardCompact } from "@/components/card-compact";
 import { SignInForm } from "@/features/auth/components/sign-in-form";
 import { passwordForgotPath, signUpPath } from "@/paths";
 
 const SignInPage = () => {
+
     return (
         <div className="flex-1 flex flex-col justify-center items-center">
             <CardCompact

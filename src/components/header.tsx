@@ -1,12 +1,12 @@
 
 "use client";
 
-import { LucideKanban } from "lucide-react";
+import { LucideKanban, LucideLogOut } from "lucide-react";
 import Link from "next/link";
-import { SignInForm } from "@/features/auth/components/sign-in-form";
-import { SignOutForm } from "@/features/auth/components/sign-out-form";
+import { signOutAction } from "@/features/auth/actions/sign-out";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { homePath, ticketsPath } from "@/paths";
+import { homePath, signInPath, ticketsPath } from "@/paths";
+import { SubmitButton } from "./form/submit-button";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { buttonVariants } from "./ui/button";
 
@@ -23,13 +23,18 @@ const Header = () => {
             >
                 Tickets
             </Link>
-            <SignOutForm />
+            <form action={signOutAction}>
+                <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+            </form>
 
         </>
     ) : (
-        <>
-            <SignInForm />
-        </>
+        <Link
+            href={signInPath()}
+            className={buttonVariants({ variant: "default" })}
+        >
+            Sign In
+        </Link>
     );
 
 
